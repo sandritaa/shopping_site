@@ -19,6 +19,8 @@ class Melon:
         image_url,
         color,
         seedless,
+        total_cost,
+        quantity
     ):
         self.melon_id = melon_id
         self.melon_type = melon_type
@@ -27,11 +29,17 @@ class Melon:
         self.image_url = image_url
         self.color = color
         self.seedless = seedless
+        self.total_cost = total_cost
+        self.quantity = quantity
 
     def price_str(self):
         """Return price formatted as string $x.xx"""
 
         return f"${self.price:.2f}"
+
+    # def total_price_str(self):
+    #  """Return price formatted as string $x.xx"""
+    #  return f"${self.total_cost:.2f}"
 
     def __repr__(self):
         """Convenience method to show information about melon in console."""
@@ -49,6 +57,7 @@ def read_melon_types_from_file(filepath):
 
     melon_types = {}
 
+# file context provider 
     with open(filepath) as file:
         for line in file:
             (
@@ -59,12 +68,15 @@ def read_melon_types_from_file(filepath):
                 img_url,
                 color,
                 seedless,
+            
             ) = line.strip().split("|")
 
             price = float(price)
 
             # For seedless, we want to turn "1" => True, otherwise False
             seedless = seedless == "1"
+            total_cost = 0
+            quantity = 0
 
             melon_types[melon_id] = Melon(
                 melon_id,
@@ -74,6 +86,8 @@ def read_melon_types_from_file(filepath):
                 img_url,
                 color,
                 seedless,
+                total_cost,
+                quantity
             )
 
     return melon_types
